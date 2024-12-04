@@ -15,7 +15,7 @@ export function Button({
   return (
     <button
       className={cn(
-        `flex w-fit items-center gap-1 rounded-lg px-4 py-[9px] text-center text-sm font-semibold duration-100 active:ring-2 active:ring-violet-300`,
+        `flex w-fit items-center gap-1 rounded-lg text-center text-sm font-semibold duration-100 focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-violet-300 active:ring-2 active:ring-violet-300`,
         {
           'button--primary': variant === ButtonVariant.Primary,
           'button--secondary': variant === ButtonVariant.Secondary,
