@@ -1,6 +1,9 @@
-'use client';
-import { EmptyList } from './_components/EmptyList';
+import { Menu } from '@components/Menu';
 
 export default function Home() {
-  return <EmptyList onClick={() => alert('ok')} />;
+  return (
+    <>
+      <Menu />
+    </>
+  );
 }
