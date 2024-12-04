@@ -3,6 +3,13 @@ import type { Config } from 'tailwindcss';
 export default {
   content: ['./app/**/*.{js,ts,jsx,tsx,mdx}'],
   theme: {
+    container: {
+      center: true,
+      screens: {
+        xl: '1168px',
+        '2xl': '1168px',
+      },
+    },
     extend: {
       colors: {
         gray: {
@@ -20,7 +27,7 @@ export default {
         },
       },
       boxShadow: {
-        sm: ' 1px 2px  #1018280D',
+        sm: ' 1px 2px #1018280D',
       },
     },
   },
