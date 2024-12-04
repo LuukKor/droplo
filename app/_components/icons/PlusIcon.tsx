@@ -1,4 +1,4 @@
-export const PlusIcon = ({ width = 21, height = 22 }) => (
+export const PlusIcon = ({ width = 20, height = 20 }) => (
   <svg
     width={width}
     height={height}

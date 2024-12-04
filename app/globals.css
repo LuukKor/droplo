@@ -3,11 +3,19 @@
 @tailwind utilities;
 
 @layer components {
-  .button {
-    @apply flex items-center gap-1 px-4 py-[10px] text-center duration-100;
+  .button--primary {
+    @apply border border-violet-400 bg-violet-400 text-white hover:bg-violet-500;
   }
 
-  .button--primary {
-    @apply rounded-lg bg-violet-400 text-sm text-white hover:bg-violet-500 focus:outline-none active:ring-2 active:ring-violet-400;
+  .button--secondary {
+    @apply border border-gray-300 bg-white text-gray-600 hover:border-violet-500 hover:text-violet-500;
+  }
+
+  .button--tertiary {
+    @apply border border-violet-300 bg-white text-violet-500 hover:border-violet-500 hover:text-violet-500;
+  }
+
+  .button--icon {
+    @apply min-h-10 min-w-10 justify-center border p-2 hover:border-violet-500 hover:text-violet-500;
   }
 }
