@@ -4,7 +4,9 @@ export type WithChildren = {
   children: ReactNode;
 };
 
-export type MenuElement = {
+export type MenuElementT = {
+  id: number;
   label: string;
   url?: string;
+  submenu?: MenuElementT[];
 };

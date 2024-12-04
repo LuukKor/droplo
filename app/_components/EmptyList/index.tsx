@@ -2,10 +2,10 @@ import { Dispatch, SetStateAction } from 'react';
 
 import { PlusIcon } from '@components/icons/PlusIcon';
 import { Button } from '@components/ui/Button';
-import { MenuElement } from '@types';
+import { MenuElementT } from '@types';
 
 type EmptyListProps = {
-  setMenuElements: Dispatch<SetStateAction<MenuElement[]>>;
+  setMenuElements: Dispatch<SetStateAction<MenuElementT[]>>;
 };
 
 export const EmptyList = ({ setMenuElements }: EmptyListProps) => {
@@ -18,7 +18,12 @@ export const EmptyList = ({ setMenuElements }: EmptyListProps) => {
         W tym menu nie ma jeszcze żadnych linków.
       </p>
       <Button
-        onClick={() => setMenuElements([{ label: 'test', url: 'test.test' }])}
+        onClick={() =>
+          setMenuElements([
+            { id: 0, label: 'test', url: 'test.test' },
+            { id: 1, label: 'test2', url: 'test2.test2' },
+          ])
+        }
         className='mt-6'
       >
         <PlusIcon />
