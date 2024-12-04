@@ -7,10 +7,10 @@
       {
         "groups": [
           ["builtin", "external"],
+          "type",
           "internal",
           ["parent", "sibling", "index"],
-          "object",
-          "type"
+          "object"
         ],
         "newlines-between": "always",
         "alphabetize": {
