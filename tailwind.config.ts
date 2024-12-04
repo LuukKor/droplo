@@ -8,9 +8,22 @@ export default {
   theme: {
     extend: {
       colors: {
-        background: "var(--background)",
-        foreground: "var(--foreground)",
-      },
+				gray: {
+					200: '#EAECF0',
+					300: '#D0D5DD',
+					400: '#667085',
+					500: '#475467',
+					600: '#344054',
+					700: '#101828',
+				},
+				violet: {
+					400: '#7F56D9',
+					500: '#6941C6'
+				}
+			},
+			boxShadow: {
+				sm: ' 1px 2px  #1018280D'
+			},
     },
   },
   plugins: [],
