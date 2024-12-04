@@ -1,7 +1,7 @@
 import type { Metadata } from 'next';
 
 import './globals.css';
-import { inter } from '@/_fonts';
+import { inter } from '@fonts';
 
 export const metadata: Metadata = {
   title: 'Droplo task',
