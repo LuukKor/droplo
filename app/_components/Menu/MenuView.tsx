@@ -1,14 +1,20 @@
-import { MenuElement } from '@types';
+import { MenuElement } from '@components/MenuElement';
+import { MenuElementT } from '@types';
 
-export const MenuView = ({ menuElements }: { menuElements: MenuElement[] }) => {
+type MenuViewProps = {
+  menuElements: MenuElementT[];
+};
+
+export const MenuView = ({ menuElements }: MenuViewProps) => {
   return (
     <div className=''>
       {menuElements.map((menuElement) => {
         return (
-          <div key={`${menuElement}`} className=''>
-            {menuElement.label}
-            {menuElement?.url && <small>{menuElement.url}</small>}
-          </div>
+          <MenuElement
+            key={`${menuElement.id}`}
+            menuElement={menuElement}
+            menuElements={menuElements}
+          />
         );
       })}
     </div>
