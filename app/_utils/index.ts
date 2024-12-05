@@ -81,3 +81,23 @@ export const updateElementById = (
     return el;
   });
 };
+
+export const removeElementById = (
+  menuElements: MenuElementT[],
+  id: string
+): MenuElementT[] => {
+  return menuElements.reduce((acc: MenuElementT[], el: MenuElementT) => {
+    if (el.id === id) {
+      if (el.submenu && el.submenu.length > 0) {
+        acc.push(...el.submenu);
+      }
+    } else {
+      const updatedElement = { ...el };
+      if (el.submenu) {
+        updatedElement.submenu = removeElementById(el.submenu, id);
+      }
+      acc.push(updatedElement);
+    }
+    return acc;
+  }, []);
+};
