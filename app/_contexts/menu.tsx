@@ -13,11 +13,15 @@ import { MenuElementT, WithChildren } from '@types';
 type MenuContextProps = {
   menuElements: MenuElementT[];
   setMenuElements: Dispatch<SetStateAction<MenuElementT[]>>;
+  formIsOpen: boolean;
+  setFormIsOpen: Dispatch<SetStateAction<boolean>>;
 };
 
 export const MenuContext = createContext<MenuContextProps>({
   menuElements: [],
   setMenuElements: () => {},
+  formIsOpen: false,
+  setFormIsOpen: () => {},
 });
 
 function swapIndex(array: MenuElementT[], index1: number, index2: number) {
@@ -37,6 +41,7 @@ function swapIndex(array: MenuElementT[], index1: number, index2: number) {
 
 export function MenuContextProvider({ children }: WithChildren) {
   const [menuElements, setMenuElements] = useState<MenuElementT[]>([]);
+  const [formIsOpen, setFormIsOpen] = useState(false);
   const [activeIndex, setActiveIndex] = useState(null);
 
   const handleDragStart = ({ active }: DragEndEvent) => {
@@ -81,7 +86,9 @@ export function MenuContextProvider({ children }: WithChildren) {
       onDragStart={handleDragStart}
       onDragEnd={handleDragEnd}
     >
-      <MenuContext.Provider value={{ menuElements, setMenuElements }}>
+      <MenuContext.Provider
+        value={{ menuElements, setMenuElements, formIsOpen, setFormIsOpen }}
+      >
         {children}
       </MenuContext.Provider>
 

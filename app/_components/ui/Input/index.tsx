@@ -14,6 +14,7 @@ export const Input = ({
   placeholder,
   classNames,
   icon,
+  ...props
 }: InputProps) => {
   const inputClassNames = icon ? 'pl-10' : '';
 
@@ -25,6 +26,7 @@ export const Input = ({
       classNames={classNames}
       inputClassNames={inputClassNames}
       icon={icon}
+      {...props}
     />
   );
 };

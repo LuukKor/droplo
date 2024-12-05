@@ -10,7 +10,7 @@ type EmptyListProps = {
 
 export const EmptyList = ({ setMenuElements }: EmptyListProps) => {
   return (
-    <div className='mt-[30px] flex flex-col items-center justify-center rounded-lg bg-gray-50 p-6'>
+    <div className='flex flex-col items-center justify-center rounded-lg bg-gray-50 p-6'>
       <h1 className='text-center text-base font-semibold text-gray-700'>
         Menu jest puste
       </h1>
