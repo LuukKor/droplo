@@ -7,7 +7,7 @@ export type WithChildren = {
 };
 
 export type MenuElementT = {
-  id: number;
+  id: string;
   label: string;
   url?: string;
   submenu?: MenuElementT[];
@@ -18,7 +18,12 @@ export type ButtonProps = {
 } & ButtonHTMLAttributes<HTMLButtonElement>;
 
 export type GroupedButtonProps = {
-  id: string | number;
+  id: string;
   variant: ButtonVariant;
   buttons: ButtonProps[];
+};
+
+export type MenuElementFormData = {
+  name: string;
+  link?: string;
 };

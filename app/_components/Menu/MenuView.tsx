@@ -5,9 +5,10 @@ import { MenuElementT } from '@types';
 
 type MenuViewProps = {
   menuElements: MenuElementT[];
+  openForm: (id: string) => void;
 };
 
-export const MenuView = ({ menuElements }: MenuViewProps) => {
+export const MenuView = ({ menuElements, openForm }: MenuViewProps) => {
   return (
     <div className='rounded-lg border border-gray-300 bg-gray-50'>
       {menuElements.map((menuElement, index) => {
@@ -20,7 +21,12 @@ export const MenuView = ({ menuElements }: MenuViewProps) => {
         );
       })}
       <div className='px-6 py-5'>
-        <Button variant={ButtonVariant.Secondary}>Dodaj pozycję menu</Button>
+        <Button
+          onClick={() => openForm(crypto.randomUUID())}
+          variant={ButtonVariant.Secondary}
+        >
+          Dodaj pozycję menu
+        </Button>
       </div>
     </div>
   );

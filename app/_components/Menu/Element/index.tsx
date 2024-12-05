@@ -15,7 +15,7 @@ type MenuElementProps = {
 };
 
 export function MenuElement({ menuElement, index }: MenuElementProps) {
-  const { menuElements, setMenuElements, removeMenuElement } =
+  const { menuElements, removeMenuElement, editMenuElement } =
     useContext(MenuContext);
   const { attributes, listeners, setNodeRef } = useDraggable({
     id: `menu-el-draggable_${menuElement.id}`,
@@ -27,16 +27,6 @@ export function MenuElement({ menuElement, index }: MenuElementProps) {
     id: `droppable_${menuElement.id}`,
   });
 
-  const addMenuElement = () => {
-    setMenuElements([
-      ...menuElements,
-      {
-        id: menuElements.length,
-        label: `menu element ${menuElements.length}`,
-      } as MenuElementT,
-    ]);
-  };
-
   const groupedButtons: GroupedButtonProps = {
     id: menuElement.id,
     variant: ButtonVariant.Secondary,
@@ -47,11 +37,11 @@ export function MenuElement({ menuElement, index }: MenuElementProps) {
       },
       {
         children: 'Edytuj',
-        onClick: () => console.log('edytuj'),
+        onClick: () => editMenuElement(menuElement.id),
       },
       {
         children: 'Dodaj pozycję menu',
-        onClick: () => addMenuElement(),
+        onClick: () => console.log('dodaj pozycje menu'),
       },
     ],
   };

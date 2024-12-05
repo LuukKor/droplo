@@ -2,38 +2,30 @@
 import { useContext } from 'react';
 import { useForm } from 'react-hook-form';
 
+import { MenuElementFormData } from '@/_types';
 import { MenuContext } from '@contexts/menu';
 
 import { ElementFormView } from './ElementFormView';
 
 type MenuElementFormProps = {
-  id: number;
-};
-
-type MenuElementFormData = {
-  name: string;
-  link?: string;
+  id: string;
 };
 
 export function MenuElementForm({ id }: MenuElementFormProps) {
-  const { menuElements, setMenuElements, setFormIsOpen, removeMenuElement } =
-    useContext(MenuContext);
+  const {
+    menuElements,
+    setFormIsOpen,
+    removeMenuElement,
+    handleMenuElementFormSubmit,
+  } = useContext(MenuContext);
   const {
     register,
     handleSubmit,
     formState: { errors },
   } = useForm<MenuElementFormData>();
-  const onSubmit = (data: MenuElementFormData) => {
-    setMenuElements([
-      ...menuElements,
-      { id: id, label: data.name, url: data.link },
-    ]);
-    setFormIsOpen(false);
-  };
-
-  const haveElement = menuElements.findIndex((el) => el.id === id);
-
-  console.log(haveElement);
+  const haveElement = menuElements.findIndex((el) => el.id === id) > -1;
+  const onSubmit = (data: MenuElementFormData) =>
+    handleMenuElementFormSubmit(id, data, haveElement);
 
   return (
     <ElementFormView
@@ -42,7 +34,7 @@ export function MenuElementForm({ id }: MenuElementFormProps) {
       register={register}
       errors={errors}
       setFormIsOpen={setFormIsOpen}
-      trashIconButtonHandle={haveElement > 0 && removeMenuElement}
+      trashIconButtonHandle={haveElement && removeMenuElement}
     />
   );
 }

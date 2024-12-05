@@ -1,7 +1,9 @@
 'use client';
-import { Dispatch, FormEventHandler, SetStateAction } from 'react';
+import { Dispatch, FormEventHandler, SetStateAction, useContext } from 'react';
 import { FieldErrors, FieldValues, UseFormRegister } from 'react-hook-form';
 
+import { MenuContext } from '@/_contexts/menu';
+import { MenuElementT } from '@/_types';
 import { Button } from '@components/ui/Button';
 import { SearchIcon } from '@components/ui/Icons/SearchIcon';
 import { TrashIcon } from '@components/ui/Icons/TrashIcon';
@@ -14,12 +16,12 @@ type MenuElementFormData = {
 };
 
 type MenuElementFormViewProps = {
-  id: number | string;
+  id: string;
   handleSubmit: FormEventHandler<HTMLFormElement>;
   register: UseFormRegister<MenuElementFormData>;
   errors: FieldErrors<FieldValues>;
   setFormIsOpen: Dispatch<SetStateAction<boolean>>;
-  trashIconButtonHandle: ((id: string | number) => void) | false;
+  trashIconButtonHandle: ((id: string) => void) | false;
 };
 
 export function ElementFormView({
@@ -30,6 +32,10 @@ export function ElementFormView({
   setFormIsOpen,
   trashIconButtonHandle,
 }: MenuElementFormViewProps) {
+  const { menuElements, activeID } = useContext(MenuContext);
+  const index = menuElements.findIndex((el) => el.id === activeID);
+  const defaultValue = index < 0 ? ({} as MenuElementT) : menuElements[index];
+
   return (
     <form
       onSubmit={handleSubmit}
@@ -41,6 +47,7 @@ export function ElementFormView({
             id='name'
             label='Nazwa'
             placeholder={'np. Promocje'}
+            defaultValue={defaultValue?.label}
             {...register('name', { required: true })}
           />
           {errors.link && (
@@ -52,6 +59,7 @@ export function ElementFormView({
             id='link'
             label='Link'
             placeholder={'Wklej lub wyszukaj'}
+            defaultValue={defaultValue?.url}
             icon={<SearchIcon />}
             {...register('link')}
           />
