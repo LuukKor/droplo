@@ -9,6 +9,7 @@ import { createContext, Dispatch, SetStateAction, useState } from 'react';
 
 import { MenuElementView } from '@components/Menu/Element/MenuElementView';
 import { MenuElementFormData, MenuElementT, WithChildren } from '@types';
+import { findElementById, updateElementById } from '@utils';
 
 type MenuContextProps = {
   menuElements: MenuElementT[];
@@ -17,6 +18,7 @@ type MenuContextProps = {
   setFormIsOpen: Dispatch<SetStateAction<boolean>>;
   removeMenuElement: (id: string) => void;
   editMenuElement: (id: string) => void;
+  addToSubMenu: (id: string) => void;
   handleMenuElementFormSubmit: (
     id: string,
     data: MenuElementFormData,
@@ -48,6 +50,7 @@ export const MenuContext = createContext<MenuContextProps>({
   setFormIsOpen: () => {},
   removeMenuElement: () => {},
   editMenuElement: () => {},
+  addToSubMenu: () => {},
   handleMenuElementFormSubmit: () => {},
   activeID: '',
   setActiveID: () => {},
@@ -116,7 +119,7 @@ export function MenuContextProvider({ children }: WithChildren) {
 
   const removeMenuElement = (id: string) => {
     if (confirm(`Chcesz usunąć element z listy?`) == false) {
-      return
+      return;
     }
 
     const index = menuElements.findIndex((el: MenuElementT) => el.id === id);
@@ -135,6 +138,10 @@ export function MenuContextProvider({ children }: WithChildren) {
     setFormIsOpen(true);
   };
 
+  const addToSubMenu = (id: string) => {
+    setActiveID(id);
+  };
+
   const handleMenuElementFormSubmit = (
     id: string,
     data: MenuElementFormData,
@@ -142,16 +149,20 @@ export function MenuContextProvider({ children }: WithChildren) {
   ) => {
     if (isEdit) {
       const array = menuElements;
-      const index = array.findIndex((el: MenuElementT) => el.id === id);
+      const element = findElementById(menuElements, id);
 
-      array[index] = {
+      const dataToSave = {
         id: id,
         label: data.name,
         url: data.link,
-        submenu: array[index].submenu,
+        submenu: element ? element.submenu : [],
       };
 
-      setMenuElements([...array]);
+      const newArray = updateElementById(array, activeID, dataToSave);
+
+      if (newArray) {
+        setMenuElements([...newArray]);
+      }
     } else {
       setMenuElements([
         ...menuElements,
@@ -179,6 +190,7 @@ export function MenuContextProvider({ children }: WithChildren) {
           setActiveID,
           editMenuElement,
           handleMenuElementFormSubmit,
+          addToSubMenu,
         }}
       >
         {children}

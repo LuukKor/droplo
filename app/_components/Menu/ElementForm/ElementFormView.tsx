@@ -2,13 +2,14 @@
 import { Dispatch, FormEventHandler, SetStateAction, useContext } from 'react';
 import { FieldErrors, FieldValues, UseFormRegister } from 'react-hook-form';
 
-import { MenuContext } from '@/_contexts/menu';
-import { MenuElementT } from '@/_types';
 import { Button } from '@components/ui/Button';
 import { SearchIcon } from '@components/ui/Icons/SearchIcon';
 import { TrashIcon } from '@components/ui/Icons/TrashIcon';
 import { Input } from '@components/ui/Input';
+import { MenuContext } from '@contexts/menu';
 import { ButtonVariant } from '@enums';
+import { MenuElementT } from '@types';
+import { findElementById } from '@utils';
 
 type MenuElementFormData = {
   name: string;
@@ -32,9 +33,9 @@ export function ElementFormView({
   setFormIsOpen,
   trashIconButtonHandle,
 }: MenuElementFormViewProps) {
-  const { menuElements, activeID } = useContext(MenuContext);
-  const index = menuElements.findIndex((el) => el.id === activeID);
-  const defaultValue = index < 0 ? ({} as MenuElementT) : menuElements[index];
+  const { menuElements } = useContext(MenuContext);
+  const element = findElementById(menuElements, id);
+  const defaultValue = element ? element : ({} as MenuElementT);
 
   return (
     <form
@@ -50,7 +51,7 @@ export function ElementFormView({
             defaultValue={defaultValue?.label}
             {...register('name', { required: true })}
           />
-          {errors.link && (
+          {errors.name && (
             <span className='text-red-500'>To pole jest wymagane</span>
           )}
         </div>

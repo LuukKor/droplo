@@ -2,8 +2,9 @@
 import { useContext } from 'react';
 import { useForm } from 'react-hook-form';
 
-import { MenuElementFormData } from '@/_types';
 import { MenuContext } from '@contexts/menu';
+import { MenuElementFormData } from '@types';
+import { findIndexById } from '@utils';
 
 import { ElementFormView } from './ElementFormView';
 
@@ -23,7 +24,8 @@ export function MenuElementForm({ id }: MenuElementFormProps) {
     handleSubmit,
     formState: { errors },
   } = useForm<MenuElementFormData>();
-  const haveElement = menuElements.findIndex((el) => el.id === id) > -1;
+  const index = findIndexById(menuElements, id);
+  const haveElement = index !== null && index.length > 0;
   const onSubmit = (data: MenuElementFormData) =>
     handleMenuElementFormSubmit(id, data, haveElement);
 

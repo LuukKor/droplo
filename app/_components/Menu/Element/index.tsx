@@ -15,7 +15,8 @@ type MenuElementProps = {
 };
 
 export function MenuElement({ menuElement, index }: MenuElementProps) {
-  const { removeMenuElement, editMenuElement } = useContext(MenuContext);
+  const { removeMenuElement, editMenuElement, addToSubMenu } =
+    useContext(MenuContext);
   const { attributes, listeners, setNodeRef } = useDraggable({
     id: `menu-el-draggable_${menuElement.id}`,
     data: {
@@ -40,7 +41,7 @@ export function MenuElement({ menuElement, index }: MenuElementProps) {
       },
       {
         children: 'Dodaj pozycję menu',
-        onClick: () => console.log('dodaj pozycje menu'),
+        onClick: () => addToSubMenu(menuElement.id),
       },
     ],
   };
