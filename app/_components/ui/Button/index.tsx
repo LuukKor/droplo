@@ -1,11 +1,6 @@
-import { ButtonHTMLAttributes } from 'react';
-
 import { ButtonVariant } from '@enums';
+import { ButtonProps } from '@types';
 import { cn } from '@utils';
-
-type ButtonProps = {
-  variant?: ButtonVariant;
-} & ButtonHTMLAttributes<HTMLButtonElement>;
 
 export function Button({
   variant = ButtonVariant.Primary,

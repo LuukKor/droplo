@@ -2,13 +2,15 @@ import { DraggableAttributes } from '@dnd-kit/core';
 import { SyntheticListenerMap } from '@dnd-kit/core/dist/hooks/utilities';
 import React, { LegacyRef } from 'react';
 
+import { GroupedButtons } from '@components/GroupedButtons';
 import { MoveIcon } from '@components/icons/MoveIcon';
 import { Button } from '@components/ui/Button';
 import { ButtonVariant } from '@enums';
-import { MenuElementT } from '@types';
+import { GroupedButtonProps, MenuElementT } from '@types';
 
 type MenuElementViewProps = {
   menuElement: MenuElementT;
+  groupedButtons?: GroupedButtonProps;
   setNodeRef?: LegacyRef<HTMLDivElement>;
   dropSetNodeRef?: LegacyRef<HTMLDivElement>;
   listeners?: SyntheticListenerMap;
@@ -17,6 +19,21 @@ type MenuElementViewProps = {
 
 export function MenuElementView({
   menuElement,
+  groupedButtons = {
+    id: `overlay_${menuElement.id}`,
+    variant: ButtonVariant.Secondary,
+    buttons: [
+      {
+        children: 'Usuń',
+      },
+      {
+        children: 'Edytuj',
+      },
+      {
+        children: 'Dodaj pozycję menu',
+      },
+    ],
+  },
   setNodeRef,
   dropSetNodeRef,
   listeners,
@@ -31,12 +48,17 @@ export function MenuElementView({
         <Button variant={ButtonVariant.Icon} {...listeners} {...attributes}>
           <MoveIcon />
         </Button>
-        <div className='flex flex-col gap-2 text-sm text-gray-700'>
+        <div className='flex flex-col gap-1 text-sm font-semibold text-gray-700'>
           {menuElement.label}
           {menuElement?.url && (
-            <span className='text-gray-500'>{menuElement.url}</span>
+            <span className='font-normal text-gray-500'>{menuElement.url}</span>
           )}
         </div>
+        <GroupedButtons
+          id={groupedButtons.id}
+          variant={groupedButtons.variant}
+          buttons={groupedButtons.buttons}
+        />
       </div>
     </div>
   );
