@@ -9,12 +9,13 @@ import { MenuElementForm } from './ElementForm';
 import { MenuView } from './MenuView';
 
 export const Menu = () => {
-  const { menuElements, setMenuElements, formIsOpen } = useContext(MenuContext);
+  const { menuElements, formIsOpen, setFormIsOpen } = useContext(MenuContext);
 
-  if (formIsOpen) return <MenuElementForm id={0} />;
+  if (menuElements.length === 0 && formIsOpen)
+    return <MenuElementForm id={0} />;
 
   if (menuElements.length === 0)
-    return <EmptyList setMenuElements={setMenuElements} />;
+    return <EmptyList setFormIsOpen={setFormIsOpen} />;
 
   return <MenuView menuElements={menuElements} />;
 };
