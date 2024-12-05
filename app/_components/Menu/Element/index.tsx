@@ -15,8 +15,7 @@ type MenuElementProps = {
 };
 
 export function MenuElement({ menuElement, index }: MenuElementProps) {
-  const { menuElements, removeMenuElement, editMenuElement } =
-    useContext(MenuContext);
+  const { removeMenuElement, editMenuElement } = useContext(MenuContext);
   const { attributes, listeners, setNodeRef } = useDraggable({
     id: `menu-el-draggable_${menuElement.id}`,
     data: {
@@ -54,7 +53,6 @@ export function MenuElement({ menuElement, index }: MenuElementProps) {
       dropSetNodeRef={dropSetNodeRef}
       listeners={listeners}
       attributes={attributes}
-      className={index === menuElements.length - 1 ? 'border-b-0' : ''}
     />
   );
 }

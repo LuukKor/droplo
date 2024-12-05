@@ -23,7 +23,7 @@ function renderMenuElements(menuElements: MenuElementT[]) {
 
 export const MenuView = ({ menuElements, openForm }: MenuViewProps) => {
   return (
-    <div className='rounded-lg border border-gray-300 bg-gray-50'>
+    <div className='overflow-hidden rounded-lg border border-gray-300 bg-gray-50'>
       {renderMenuElements(menuElements)}
       <div className='px-6 py-5'>
         <Button

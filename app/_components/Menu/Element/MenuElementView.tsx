@@ -46,7 +46,7 @@ export function MenuElementView({
     <div ref={dropSetNodeRef}>
       <div
         className={cn(
-          'flex items-center gap-1 rounded-lg border-b border-gray-200 bg-white px-6 py-4',
+          'flex items-center gap-1 border-b border-gray-200 bg-white px-6 py-4',
           className
         )}
         ref={setNodeRef}
