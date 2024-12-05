@@ -115,7 +115,9 @@ export function MenuContextProvider({ children }: WithChildren) {
   };
 
   const removeMenuElement = (id: string) => {
-    confirm(`Chcesz usunąć element z listy?`);
+    if (confirm(`Chcesz usunąć element z listy?`) == false) {
+      return
+    }
 
     const index = menuElements.findIndex((el: MenuElementT) => el.id === id);
 
