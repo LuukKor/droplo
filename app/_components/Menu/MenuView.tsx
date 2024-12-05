@@ -1,4 +1,6 @@
+import { ButtonVariant } from '@/_types/enums';
 import { MenuElement } from '@components/MenuElement';
+import { Button } from '@components/ui/Button';
 import { MenuElementT } from '@types';
 
 type MenuViewProps = {
@@ -17,6 +19,9 @@ export const MenuView = ({ menuElements }: MenuViewProps) => {
           />
         );
       })}
+      <div className='px-6 py-5'>
+        <Button variant={ButtonVariant.Secondary}>Dodaj pozycję menu</Button>
+      </div>
     </div>
   );
 };
