@@ -1,6 +1,10 @@
 'use client';
 
 import { DndContext, DragEndEvent, DragOverlay } from '@dnd-kit/core';
+import {
+  restrictToVerticalAxis,
+  restrictToWindowEdges,
+} from '@dnd-kit/modifiers';
 import { createContext, Dispatch, SetStateAction, useState } from 'react';
 
 import { MenuElementT, WithChildren } from '@types';
@@ -71,12 +75,16 @@ export function MenuContextProvider({ children }: WithChildren) {
   };
 
   return (
-    <DndContext onDragStart={handleDragStart} onDragEnd={handleDragEnd}>
+    <DndContext
+      modifiers={[restrictToVerticalAxis]}
+      onDragStart={handleDragStart}
+      onDragEnd={handleDragEnd}
+    >
       <MenuContext.Provider value={{ menuElements, setMenuElements }}>
         {children}
       </MenuContext.Provider>
 
-      <DragOverlay>
+      <DragOverlay modifiers={[restrictToWindowEdges]}>
         {typeof activeIndex === 'number' ? (
           <div className='bg-red-200'>
             {menuElements[activeIndex].label}
