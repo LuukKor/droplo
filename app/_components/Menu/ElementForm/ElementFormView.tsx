@@ -1,12 +1,11 @@
 'use client';
-import { useContext } from 'react';
-import { useForm } from 'react-hook-form';
+import { Dispatch, FormEventHandler, SetStateAction } from 'react';
+import { FieldErrors, FieldValues, UseFormRegister } from 'react-hook-form';
 
 import { Button } from '@components/ui/Button';
 import { SearchIcon } from '@components/ui/Icons/SearchIcon';
 import { TrashIcon } from '@components/ui/Icons/TrashIcon';
 import { Input } from '@components/ui/Input';
-import { MenuContext } from '@contexts/menu';
 import { ButtonVariant } from '@enums';
 
 type MenuElementFormData = {
@@ -14,27 +13,22 @@ type MenuElementFormData = {
   link?: string;
 };
 
-export function MenuElementForm({ id }) {
-  const { menuElements, setMenuElements, setFormIsOpen } =
-    useContext(MenuContext);
-  const {
-    register,
-    handleSubmit,
-    formState: { errors },
-  } = useForm();
-  const onSubmit = (data: MenuElementFormData) => {
-    console.log(data);
+type MenuElementFormViewProps = {
+  handleSubmit: FormEventHandler<HTMLFormElement>;
+  register: UseFormRegister<MenuElementFormData>;
+  errors: FieldErrors<FieldValues>;
+  setFormIsOpen: Dispatch<SetStateAction<boolean>>;
+};
 
-    setMenuElements([
-      ...menuElements,
-      { id: id, label: data.name, url: data.link },
-    ]);
-    setFormIsOpen(false);
-  };
-
+export function ElementFormView({
+  handleSubmit,
+  register,
+  errors,
+  setFormIsOpen,
+}: MenuElementFormViewProps) {
   return (
     <form
-      onSubmit={handleSubmit(onSubmit)}
+      onSubmit={handleSubmit}
       className='flex gap-3 rounded-lg border border-gray-300 px-6 py-5'
     >
       <div className='w-full'>

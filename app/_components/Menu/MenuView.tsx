@@ -1,6 +1,6 @@
-import { ButtonVariant } from '@/_types/enums';
-import { MenuElement } from '@components/MenuElement';
+import { MenuElement } from '@components/Menu/Element';
 import { Button } from '@components/ui/Button';
+import { ButtonVariant } from '@enums';
 import { MenuElementT } from '@types';
 
 type MenuViewProps = {

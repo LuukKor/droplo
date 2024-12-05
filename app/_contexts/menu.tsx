@@ -7,7 +7,7 @@ import {
 } from '@dnd-kit/modifiers';
 import { createContext, Dispatch, SetStateAction, useState } from 'react';
 
-import { MenuElementView } from '@components/MenuElement/MenuElementView';
+import { MenuElementView } from '@components/Menu/Element/MenuElementView';
 import { MenuElementT, WithChildren } from '@types';
 
 type MenuContextProps = {
