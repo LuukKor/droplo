@@ -10,7 +10,7 @@ export type MenuElementT = {
   id: string;
   label: string;
   url?: string;
-  submenu?: MenuElementT[];
+  submenu: MenuElementT[];
 };
 
 export type ButtonProps = {

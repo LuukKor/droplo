@@ -54,7 +54,25 @@ export const MenuContext = createContext<MenuContextProps>({
 });
 
 export function MenuContextProvider({ children }: WithChildren) {
-  const [menuElements, setMenuElements] = useState<MenuElementT[]>([]);
+  const [menuElements, setMenuElements] = useState<MenuElementT[]>([
+    {
+      id: 'first',
+      label: 'test',
+      submenu: [
+        {
+          id: 'first-child',
+          label: 'test child',
+          submenu: [
+            {
+              id: 'first-child-child',
+              label: 'test child child',
+              submenu: [],
+            },
+          ],
+        },
+      ],
+    },
+  ]);
   const [formIsOpen, setFormIsOpen] = useState(false);
   const [activeIndex, setActiveIndex] = useState(null);
   const [activeID, setActiveID] = useState('first');
@@ -124,13 +142,18 @@ export function MenuContextProvider({ children }: WithChildren) {
       const array = menuElements;
       const index = array.findIndex((el: MenuElementT) => el.id === id);
 
-      array[index] = { id: id, label: data.name, url: data.link };
+      array[index] = {
+        id: id,
+        label: data.name,
+        url: data.link,
+        submenu: array[index].submenu,
+      };
 
       setMenuElements([...array]);
     } else {
       setMenuElements([
         ...menuElements,
-        { id: id, label: data.name, url: data.link },
+        { id: id, label: data.name, url: data.link, submenu: [] },
       ]);
     }
     setFormIsOpen(false);

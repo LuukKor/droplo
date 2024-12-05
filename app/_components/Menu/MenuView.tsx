@@ -8,18 +8,23 @@ type MenuViewProps = {
   openForm: (id: string) => void;
 };
 
+function renderMenuElements(menuElements: MenuElementT[]) {
+  return menuElements.map((menuElement, index) => {
+    return (
+      <div key={`${menuElement.id}_${index}`}>
+        <MenuElement menuElement={menuElement} index={index} />
+        {menuElement?.submenu?.length > 0 && (
+          <div className='ml-16'>{renderMenuElements(menuElement.submenu)}</div>
+        )}
+      </div>
+    );
+  });
+}
+
 export const MenuView = ({ menuElements, openForm }: MenuViewProps) => {
   return (
     <div className='rounded-lg border border-gray-300 bg-gray-50'>
-      {menuElements.map((menuElement, index) => {
-        return (
-          <MenuElement
-            key={`${menuElement.id}_${index}`}
-            menuElement={menuElement}
-            index={index}
-          />
-        );
-      })}
+      {renderMenuElements(menuElements)}
       <div className='px-6 py-5'>
         <Button
           onClick={() => openForm(crypto.randomUUID())}
