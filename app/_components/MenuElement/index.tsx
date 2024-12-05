@@ -75,6 +75,7 @@ export function MenuElement({ menuElement, index }: MenuElementProps) {
       dropSetNodeRef={dropSetNodeRef}
       listeners={listeners}
       attributes={attributes}
+      className={index === menuElements.length - 1 ? 'border-b-0' : ''}
     />
   );
 }

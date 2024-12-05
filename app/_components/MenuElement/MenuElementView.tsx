@@ -7,6 +7,7 @@ import { MoveIcon } from '@components/icons/MoveIcon';
 import { Button } from '@components/ui/Button';
 import { ButtonVariant } from '@enums';
 import { GroupedButtonProps, MenuElementT } from '@types';
+import { cn } from '@utils';
 
 type MenuElementViewProps = {
   menuElement: MenuElementT;
@@ -15,6 +16,7 @@ type MenuElementViewProps = {
   dropSetNodeRef?: LegacyRef<HTMLDivElement>;
   listeners?: SyntheticListenerMap;
   attributes?: DraggableAttributes;
+  className?: string;
 };
 
 export function MenuElementView({
@@ -38,11 +40,15 @@ export function MenuElementView({
   dropSetNodeRef,
   listeners,
   attributes,
+  className = '',
 }: MenuElementViewProps) {
   return (
     <div ref={dropSetNodeRef}>
       <div
-        className='flex items-center gap-1 rounded-lg border-b border-gray-200 bg-white px-6 py-4'
+        className={cn(
+          'flex items-center gap-1 rounded-lg border-b border-gray-200 bg-white px-6 py-4',
+          className
+        )}
         ref={setNodeRef}
       >
         <Button variant={ButtonVariant.Icon} {...listeners} {...attributes}>
