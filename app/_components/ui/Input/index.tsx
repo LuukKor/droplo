@@ -5,6 +5,7 @@ type InputProps = {
   label: string;
   placeholder: string;
   classNames?: string;
+  defaultValue?: string;
   icon?: JSX.Element;
 };
 
@@ -14,6 +15,7 @@ export const Input = ({
   placeholder,
   classNames,
   icon,
+  defaultValue,
   ...props
 }: InputProps) => {
   const inputClassNames = icon ? 'pl-10' : '';
@@ -26,6 +28,7 @@ export const Input = ({
       classNames={classNames}
       inputClassNames={inputClassNames}
       icon={icon}
+      defaultValue={defaultValue}
       {...props}
     />
   );

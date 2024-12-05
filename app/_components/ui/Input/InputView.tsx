@@ -6,6 +6,7 @@ type InputViewProps = {
   placeholder: string;
   inputClassNames: string;
   classNames?: string;
+  defaultValue?: string;
   icon?: JSX.Element;
 };
 
@@ -15,6 +16,7 @@ export const InputView = ({
   placeholder,
   inputClassNames,
   classNames,
+  defaultValue,
   icon,
   ...props
 }: InputViewProps) => {
@@ -31,6 +33,7 @@ export const InputView = ({
           'pl- rounded-lg border border-gray-300 px-3 py-2 text-base font-normal text-gray-600 placeholder:text-gray-400 focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-violet-300',
           inputClassNames
         )}
+        defaultValue={defaultValue}
         type='text'
         placeholder={placeholder}
         {...props}
