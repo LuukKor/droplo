@@ -16,7 +16,7 @@ type MenuElementFormData = {
 };
 
 export function MenuElementForm({ id }: MenuElementFormProps) {
-  const { menuElements, setMenuElements, setFormIsOpen } =
+  const { menuElements, setMenuElements, setFormIsOpen, removeMenuElement } =
     useContext(MenuContext);
   const {
     register,
@@ -24,8 +24,6 @@ export function MenuElementForm({ id }: MenuElementFormProps) {
     formState: { errors },
   } = useForm<MenuElementFormData>();
   const onSubmit = (data: MenuElementFormData) => {
-    console.log(data);
-
     setMenuElements([
       ...menuElements,
       { id: id, label: data.name, url: data.link },
@@ -33,12 +31,18 @@ export function MenuElementForm({ id }: MenuElementFormProps) {
     setFormIsOpen(false);
   };
 
+  const haveElement = menuElements.findIndex((el) => el.id === id);
+
+  console.log(haveElement);
+
   return (
     <ElementFormView
+      id={id}
       handleSubmit={handleSubmit(onSubmit)}
       register={register}
       errors={errors}
       setFormIsOpen={setFormIsOpen}
+      trashIconButtonHandle={haveElement > 0 && removeMenuElement}
     />
   );
 }

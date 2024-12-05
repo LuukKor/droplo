@@ -15,7 +15,8 @@ type MenuElementProps = {
 };
 
 export function MenuElement({ menuElement, index }: MenuElementProps) {
-  const { menuElements, setMenuElements } = useContext(MenuContext);
+  const { menuElements, setMenuElements, removeMenuElement } =
+    useContext(MenuContext);
   const { attributes, listeners, setNodeRef } = useDraggable({
     id: `menu-el-draggable_${menuElement.id}`,
     data: {
@@ -25,18 +26,6 @@ export function MenuElement({ menuElement, index }: MenuElementProps) {
   const { setNodeRef: dropSetNodeRef } = useDroppable({
     id: `droppable_${menuElement.id}`,
   });
-
-  const removeMenuElement = (id: number) => {
-    confirm(`Chcesz usunąć element z listy?`);
-
-    const index = menuElements.findIndex((el: MenuElementT) => el.id === id);
-
-    if (index > -1) {
-      const newMenuElements = menuElements.toSpliced(index, 1);
-
-      setMenuElements([...newMenuElements]);
-    }
-  };
 
   const addMenuElement = () => {
     setMenuElements([

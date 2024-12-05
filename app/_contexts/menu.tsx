@@ -15,6 +15,7 @@ type MenuContextProps = {
   setMenuElements: Dispatch<SetStateAction<MenuElementT[]>>;
   formIsOpen: boolean;
   setFormIsOpen: Dispatch<SetStateAction<boolean>>;
+  removeMenuElement: (id: string | number) => void;
 };
 
 export const MenuContext = createContext<MenuContextProps>({
@@ -80,6 +81,18 @@ export function MenuContextProvider({ children }: WithChildren) {
     setActiveIndex(null);
   };
 
+  const removeMenuElement = (id: number) => {
+    confirm(`Chcesz usunąć element z listy?`);
+
+    const index = menuElements.findIndex((el: MenuElementT) => el.id === id);
+
+    if (index > -1) {
+      const newMenuElements = menuElements.toSpliced(index, 1);
+
+      setMenuElements([...newMenuElements]);
+    }
+  };
+
   return (
     <DndContext
       modifiers={[restrictToVerticalAxis]}
@@ -87,7 +100,13 @@ export function MenuContextProvider({ children }: WithChildren) {
       onDragEnd={handleDragEnd}
     >
       <MenuContext.Provider
-        value={{ menuElements, setMenuElements, formIsOpen, setFormIsOpen }}
+        value={{
+          menuElements,
+          setMenuElements,
+          formIsOpen,
+          setFormIsOpen,
+          removeMenuElement,
+        }}
       >
         {children}
       </MenuContext.Provider>

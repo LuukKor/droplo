@@ -14,17 +14,21 @@ type MenuElementFormData = {
 };
 
 type MenuElementFormViewProps = {
+  id: number | string;
   handleSubmit: FormEventHandler<HTMLFormElement>;
   register: UseFormRegister<MenuElementFormData>;
   errors: FieldErrors<FieldValues>;
   setFormIsOpen: Dispatch<SetStateAction<boolean>>;
+  trashIconButtonHandle: ((id: string | number) => void) | false;
 };
 
 export function ElementFormView({
+  id,
   handleSubmit,
   register,
   errors,
   setFormIsOpen,
+  trashIconButtonHandle,
 }: MenuElementFormViewProps) {
   return (
     <form
@@ -53,7 +57,11 @@ export function ElementFormView({
           />
         </div>
         <div className='flex gap-2'>
-          <Button type='button' variant={ButtonVariant.Secondary}>
+          <Button
+            onClick={() => setFormIsOpen(false)}
+            type='button'
+            variant={ButtonVariant.Secondary}
+          >
             Anuluj
           </Button>
           <Button type='submit' variant={ButtonVariant.Tertiary}>
@@ -62,7 +70,11 @@ export function ElementFormView({
         </div>
       </div>
       <Button
-        onClick={() => setFormIsOpen(false)}
+        onClick={() =>
+          trashIconButtonHandle
+            ? trashIconButtonHandle(id)
+            : setFormIsOpen(false)
+        }
         type='button'
         variant={ButtonVariant.Icon}
         className='ml-2 self-start'
