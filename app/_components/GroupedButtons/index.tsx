@@ -1,5 +1,5 @@
-import { ButtonProps, GroupedButtonProps } from '@types';
 import { Button } from '@components/ui/Button';
+import { ButtonProps, GroupedButtonProps } from '@types';
 
 export const GroupedButtons = ({
   buttons,
