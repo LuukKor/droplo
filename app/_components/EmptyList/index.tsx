@@ -1,6 +1,6 @@
 import { Dispatch, SetStateAction } from 'react';
 
-import { PlusIcon } from '@components/icons/PlusIcon';
+import { PlusIcon } from '@components/Icons/PlusIcon';
 import { Button } from '@components/ui/Button';
 import { MenuElementT } from '@types';
 

@@ -3,8 +3,8 @@
 import { useDraggable, useDroppable } from '@dnd-kit/core';
 import React, { useContext } from 'react';
 
-import { MenuContext } from '@/_contexts/menu';
-import { ButtonVariant } from '@/_types/enums';
+import { MenuContext } from '@contexts/menu';
+import { ButtonVariant } from '@enums';
 import { GroupedButtonProps, MenuElementT } from '@types';
 
 import { MenuElementView } from './MenuElementView';

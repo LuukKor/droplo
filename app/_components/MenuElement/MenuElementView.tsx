@@ -2,8 +2,8 @@ import { DraggableAttributes } from '@dnd-kit/core';
 import { SyntheticListenerMap } from '@dnd-kit/core/dist/hooks/utilities';
 import React, { LegacyRef } from 'react';
 
+import { MoveIcon } from '@components/Icons/MoveIcon';
 import { GroupedButtons } from '@components/GroupedButtons';
-import { MoveIcon } from '@components/icons/MoveIcon';
 import { Button } from '@components/ui/Button';
 import { ButtonVariant } from '@enums';
 import { GroupedButtonProps, MenuElementT } from '@types';

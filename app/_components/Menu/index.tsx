@@ -2,7 +2,7 @@
 
 import { useContext } from 'react';
 
-import { MenuContext } from '@/_contexts/menu';
+import { MenuContext } from '@contexts/menu';
 import { EmptyList } from '@components/EmptyList';
 
 import { MenuView } from './MenuView';
