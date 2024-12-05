@@ -7,7 +7,7 @@ type MenuViewProps = {
 
 export const MenuView = ({ menuElements }: MenuViewProps) => {
   return (
-    <div className=''>
+    <div className='rounded-lg border border-gray-300 bg-gray-50'>
       {menuElements.map((menuElement, index) => {
         return (
           <MenuElement

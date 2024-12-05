@@ -7,6 +7,7 @@ import {
 } from '@dnd-kit/modifiers';
 import { createContext, Dispatch, SetStateAction, useState } from 'react';
 
+import { MenuElementView } from '@components/MenuElement/MenuElementView';
 import { MenuElementT, WithChildren } from '@types';
 
 type MenuContextProps = {
@@ -86,12 +87,7 @@ export function MenuContextProvider({ children }: WithChildren) {
 
       <DragOverlay modifiers={[restrictToWindowEdges]}>
         {typeof activeIndex === 'number' ? (
-          <div className='bg-red-200'>
-            {menuElements[activeIndex].label}
-            {menuElements[activeIndex]?.url && (
-              <small>{menuElements[activeIndex].url}</small>
-            )}
-          </div>
+          <MenuElementView menuElement={menuElements[activeIndex]} />
         ) : null}
       </DragOverlay>
     </DndContext>

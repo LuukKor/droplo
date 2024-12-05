@@ -5,6 +5,8 @@ import React from 'react';
 
 import { MenuElementT } from '@types';
 
+import { MenuElementView } from './MenuElementView';
+
 type MenuElementProps = {
   menuElement: MenuElementT;
   index: number;
@@ -17,21 +19,17 @@ export function MenuElement({ menuElement, index }: MenuElementProps) {
       menuElementIndex: index,
     },
   });
-  const droppable = useDroppable({
+  const { setNodeRef: dropSetNodeRef } = useDroppable({
     id: `droppable_${menuElement.id}`,
   });
 
   return (
-    <div className='droppable bg-slate-300 p-4' ref={droppable.setNodeRef}>
-      <div
-        className='bg-red-200'
-        ref={setNodeRef}
-        {...listeners}
-        {...attributes}
-      >
-        {menuElement.label}
-        {menuElement?.url && <small>{menuElement.url}</small>}
-      </div>
-    </div>
+    <MenuElementView
+      menuElement={menuElement}
+      setNodeRef={setNodeRef}
+      dropSetNodeRef={dropSetNodeRef}
+      listeners={listeners}
+      attributes={attributes}
+    />
   );
 }
