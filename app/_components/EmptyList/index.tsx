@@ -1,7 +1,7 @@
 import { Dispatch, SetStateAction } from 'react';
 
-import { PlusIcon } from '@components/Icons/PlusIcon';
 import { Button } from '@components/ui/Button';
+import { PlusIcon } from '@components/ui/Icons/PlusIcon';
 import { MenuElementT } from '@types';
 
 type EmptyListProps = {

@@ -2,9 +2,9 @@
 import { useContext } from 'react';
 import { useForm } from 'react-hook-form';
 
-import { SearchIcon } from '@components/Icons/SearchIcon';
-import { TrashIcon } from '@components/Icons/TrashIcon';
 import { Button } from '@components/ui/Button';
+import { SearchIcon } from '@components/ui/Icons/SearchIcon';
+import { TrashIcon } from '@components/ui/Icons/TrashIcon';
 import { Input } from '@components/ui/Input';
 import { MenuContext } from '@contexts/menu';
 import { ButtonVariant } from '@enums';

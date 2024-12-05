@@ -3,8 +3,8 @@ import { SyntheticListenerMap } from '@dnd-kit/core/dist/hooks/utilities';
 import React, { LegacyRef } from 'react';
 
 import { GroupedButtons } from '@components/GroupedButtons';
-import { MoveIcon } from '@components/Icons/MoveIcon';
 import { Button } from '@components/ui/Button';
+import { MoveIcon } from '@components/ui/Icons/MoveIcon';
 import { ButtonVariant } from '@enums';
 import { GroupedButtonProps, MenuElementT } from '@types';
 import { cn } from '@utils';
