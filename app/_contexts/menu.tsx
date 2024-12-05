@@ -1,6 +1,6 @@
 'use client';
 
-import { DndContext, DragEndEvent } from '@dnd-kit/core';
+import { DndContext, DragEndEvent, DragOverlay } from '@dnd-kit/core';
 import { createContext, Dispatch, SetStateAction, useState } from 'react';
 
 import { MenuElementT, WithChildren } from '@types';
@@ -32,6 +32,13 @@ function swapIndex(array: MenuElementT[], index1: number, index2: number) {
 
 export function MenuContextProvider({ children }: WithChildren) {
   const [menuElements, setMenuElements] = useState<MenuElementT[]>([]);
+  const [activeIndex, setActiveIndex] = useState(null);
+
+  const handleDragStart = ({ active }: DragEndEvent) => {
+    const activeIndex = active.data.current?.menuElementIndex;
+    if (typeof activeIndex === 'number')
+      setActiveIndex(active.data.current?.menuElementIndex);
+  };
 
   const handleDragEnd = ({ active: { id: activeId }, over }: DragEndEvent) => {
     const endId = over?.id;
@@ -60,13 +67,25 @@ export function MenuContextProvider({ children }: WithChildren) {
     );
 
     setMenuElements([...menuElementsNewPositions]);
+    setActiveIndex(null);
   };
 
   return (
-    <DndContext onDragEnd={handleDragEnd}>
+    <DndContext onDragStart={handleDragStart} onDragEnd={handleDragEnd}>
       <MenuContext.Provider value={{ menuElements, setMenuElements }}>
         {children}
       </MenuContext.Provider>
+
+      <DragOverlay>
+        {typeof activeIndex === 'number' ? (
+          <div className='bg-red-200'>
+            {menuElements[activeIndex].label}
+            {menuElements[activeIndex]?.url && (
+              <small>{menuElements[activeIndex].url}</small>
+            )}
+          </div>
+        ) : null}
+      </DragOverlay>
     </DndContext>
   );
 }

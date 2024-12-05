@@ -8,12 +8,12 @@ type MenuViewProps = {
 export const MenuView = ({ menuElements }: MenuViewProps) => {
   return (
     <div className=''>
-      {menuElements.map((menuElement) => {
+      {menuElements.map((menuElement, index) => {
         return (
           <MenuElement
             key={`${menuElement.id}`}
             menuElement={menuElement}
-            menuElements={menuElements}
+            index={index}
           />
         );
       })}
