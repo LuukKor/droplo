@@ -83,7 +83,7 @@ export function swapElementsByIndexPath(
   const addNodeAtPath = (
     menuElements: MenuElementT[],
     path: number[],
-    element: MenuElementT,
+    element: MenuElementT
   ): MenuElementT[] => {
     const indexToAdd = path[path.length - 1];
     const parentPath = path.slice(0, -1);
@@ -102,12 +102,21 @@ export function swapElementsByIndexPath(
     const path1Val = path1.reduce((sum, num) => sum + num, 0);
     const path2Val = path2.reduce((sum, num) => sum + num, 0);
 
-    if (path1[path1.length -1] >= path2[path2.length -1] && path1Val < path2Val) {
-      const { updatedMenu, removedElement } = removeNodeByPath(menuElements, path2);
+    if (
+      path1[path1.length - 1] >= path2[path2.length - 1] &&
+      path1Val < path2Val
+    ) {
+      const { updatedMenu, removedElement } = removeNodeByPath(
+        menuElements,
+        path2
+      );
       return addNodeAtPath(updatedMenu, path1, removedElement);
     }
 
-    const { updatedMenu, removedElement } = removeNodeByPath(menuElements, path1);
+    const { updatedMenu, removedElement } = removeNodeByPath(
+      menuElements,
+      path1
+    );
     return addNodeAtPath(updatedMenu, path2, removedElement);
   } else {
     const el1 = getNodeByPath(menuElements, path1);
