@@ -3,8 +3,8 @@ import { useContext } from 'react';
 import { useForm } from 'react-hook-form';
 
 import { MenuContext } from '@contexts/menu';
-import { MenuElementFormData } from '@types';
-import { findIndexById } from '@utils';
+import { MenuElementFormData, MenuElementT } from '@types';
+import { findElementById, findIndexById } from '@utils';
 
 import { ElementFormView } from './ElementFormView';
 
@@ -20,13 +20,19 @@ export function MenuElementForm({ id }: MenuElementFormProps) {
     handleMenuElementFormSubmit,
     isAddToSubmenu,
   } = useContext(MenuContext);
+
   const {
     register,
     handleSubmit,
     formState: { errors },
   } = useForm<MenuElementFormData>();
+
   const index = findIndexById(menuElements, id);
   const haveElement = !isAddToSubmenu && index !== null && index.length > 0;
+  const element = findElementById(menuElements, id);
+  const defaultValue =
+    !isAddToSubmenu && element ? element : ({} as MenuElementT);
+
   const onSubmit = (data: MenuElementFormData) =>
     handleMenuElementFormSubmit(id, data);
 
@@ -38,6 +44,7 @@ export function MenuElementForm({ id }: MenuElementFormProps) {
       errors={errors}
       setFormIsOpen={setFormIsOpen}
       trashIconButtonHandle={haveElement && removeMenuElement}
+      defaultValue={defaultValue}
     />
   );
 }

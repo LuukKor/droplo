@@ -1,14 +1,12 @@
-import { Dispatch, FormEventHandler, SetStateAction, useContext } from 'react';
+import { Dispatch, FormEventHandler, SetStateAction } from 'react';
 import { FieldErrors, FieldValues, UseFormRegister } from 'react-hook-form';
 
 import { Button } from '@components/ui/Button';
 import { SearchIcon } from '@components/ui/Icons/SearchIcon';
 import { TrashIcon } from '@components/ui/Icons/TrashIcon';
 import { Input } from '@components/ui/Input';
-import { MenuContext } from '@contexts/menu';
 import { ButtonVariant } from '@enums';
 import { MenuElementT } from '@types';
-import { findElementById } from '@utils';
 
 type MenuElementFormData = {
   name: string;
@@ -22,6 +20,7 @@ type MenuElementFormViewProps = {
   errors: FieldErrors<FieldValues>;
   setFormIsOpen: Dispatch<SetStateAction<boolean>>;
   trashIconButtonHandle: ((id: string) => void) | false;
+  defaultValue: MenuElementT;
 };
 
 export function ElementFormView({
@@ -31,12 +30,8 @@ export function ElementFormView({
   errors,
   setFormIsOpen,
   trashIconButtonHandle,
+  defaultValue,
 }: MenuElementFormViewProps) {
-  const { menuElements, isAddToSubmenu } = useContext(MenuContext);
-  const element = findElementById(menuElements, id);
-  const defaultValue =
-    !isAddToSubmenu && element ? element : ({} as MenuElementT);
-
   return (
     <form
       onSubmit={handleSubmit}
