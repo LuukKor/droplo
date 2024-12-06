@@ -56,19 +56,70 @@ export function swapElementsByIndexPath(
   ): MenuElementT => {
     return path.reduce(
       (el: MenuElementT, index: number) => {
+        if (!el.submenu) throw new Error('Invalid path');
         return el.submenu[index];
       },
       { submenu: menuElements } as MenuElementT
     );
   };
 
-  const el1 = getNodeByPath(menuElements, path1);
-  const el2 = getNodeByPath(menuElements, path2);
+  const removeNodeByPath = (
+    menuElements: MenuElementT[],
+    path: number[]
+  ): { updatedMenu: MenuElementT[]; removedElement: MenuElementT } => {
+    const indexToRemove = path[path.length - 1];
+    const parentPath = path.slice(0, -1);
 
-  [el1.id, el2.id] = [el2.id, el1.id];
-  [el1.label, el2.label] = [el2.label, el1.label];
+    const parent = parentPath.length
+      ? getNodeByPath(menuElements, parentPath)
+      : { submenu: menuElements };
 
-  return menuElements;
+    if (!parent.submenu) throw new Error('Invalid submenu structure');
+
+    const removedElement = parent.submenu.splice(indexToRemove, 1)[0];
+    return { updatedMenu: menuElements, removedElement };
+  };
+
+  const addNodeAtPath = (
+    menuElements: MenuElementT[],
+    path: number[],
+    element: MenuElementT,
+  ): MenuElementT[] => {
+    const indexToAdd = path[path.length - 1];
+    const parentPath = path.slice(0, -1);
+
+    console.log('parentPath', parentPath)
+
+    const parent = parentPath.length
+      ? getNodeByPath(menuElements, parentPath)
+      : { submenu: menuElements };
+
+    if (!parent.submenu) throw new Error('Invalid submenu structure');
+
+    parent.submenu.splice(indexToAdd, 0, element);
+    return menuElements;
+  };
+
+  if (path1.length === path2.length) {
+    const path1Val = path1.reduce((sum, num) => sum + num, 0);
+    const path2Val = path2.reduce((sum, num) => sum + num, 0);
+
+    if (path1[path1.length -1] >= path2[path2.length -1] && path1Val < path2Val) {
+      const { updatedMenu, removedElement } = removeNodeByPath(menuElements, path2);
+      return addNodeAtPath(updatedMenu, path1, removedElement);
+    }
+
+    const { updatedMenu, removedElement } = removeNodeByPath(menuElements, path1);
+    return addNodeAtPath(updatedMenu, path2, removedElement);
+  } else {
+    const el1 = getNodeByPath(menuElements, path1);
+    const el2 = getNodeByPath(menuElements, path2);
+
+    [el1.id, el2.id] = [el2.id, el1.id];
+    [el1.label, el2.label] = [el2.label, el1.label];
+
+    return menuElements;
+  }
 }
 
 export const updateElementById = (

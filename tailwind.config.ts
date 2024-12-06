@@ -10,8 +10,8 @@ export default {
         '2xl': '1200px',
       },
       padding: {
-        DEFAULT: '1rem'
-      }
+        DEFAULT: '1rem',
+      },
     },
     extend: {
       colors: {
