@@ -46,30 +46,7 @@ export const MenuContext = createContext<MenuContextProps>({
 });
 
 export function MenuContextProvider({ children }: WithChildren) {
-  const [menuElements, setMenuElements] = useState<MenuElementT[]>([
-    {
-      id: 'first',
-      label: 'test',
-      submenu: [
-        {
-          id: 'first-child-2',
-          label: 'test child-2',
-          submenu: [
-            {
-              id: 'first-child-child-2',
-              label: 'test child chil-2d',
-              submenu: [],
-            },
-            {
-              id: 'first-second-child-child-2',
-              label: 'test second child child-2',
-              submenu: [],
-            },
-          ],
-        },
-      ],
-    },
-  ]);
+  const [menuElements, setMenuElements] = useState<MenuElementT[]>([]);
   const [formIsOpen, setFormIsOpen] = useState(false);
   const [activeID, setActiveID] = useState(crypto.randomUUID());
   const [isAddToSubmenu, setIsAddToSubmenu] = useState(false);
