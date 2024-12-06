@@ -6,9 +6,12 @@ export default {
     container: {
       center: true,
       screens: {
-        xl: '1168px',
-        '2xl': '1168px',
+        xl: '1200px',
+        '2xl': '1200px',
       },
+      padding: {
+        DEFAULT: '1rem'
+      }
     },
     extend: {
       colors: {
