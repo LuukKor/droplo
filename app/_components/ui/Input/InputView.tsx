@@ -33,6 +33,7 @@ export const InputView = ({
           'rounded-lg border border-gray-300 px-3 py-2 text-base font-normal text-gray-600 shadow-sm placeholder:text-gray-400 focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-violet-300',
           inputClassNames
         )}
+        id={id}
         defaultValue={defaultValue}
         type='text'
         placeholder={placeholder}
