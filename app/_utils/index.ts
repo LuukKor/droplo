@@ -88,8 +88,6 @@ export function swapElementsByIndexPath(
     const indexToAdd = path[path.length - 1];
     const parentPath = path.slice(0, -1);
 
-    console.log('parentPath', parentPath)
-
     const parent = parentPath.length
       ? getNodeByPath(menuElements, parentPath)
       : { submenu: menuElements };
