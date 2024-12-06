@@ -12,7 +12,7 @@ function renderMenuElements(menuElements: MenuElementT[]) {
   return menuElements.map((menuElement, index) => {
     return (
       <div key={`${menuElement.id}_${index}`}>
-        <MenuElement menuElement={menuElement} index={index} />
+        <MenuElement menuElement={menuElement}></MenuElement>
         {menuElement?.submenu?.length > 0 && (
           <div className='ml-16'>{renderMenuElements(menuElement.submenu)}</div>
         )}

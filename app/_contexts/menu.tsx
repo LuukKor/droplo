@@ -9,7 +9,13 @@ import { createContext, Dispatch, SetStateAction, useState } from 'react';
 
 import { MenuElementView } from '@components/Menu/Element/MenuElementView';
 import { MenuElementFormData, MenuElementT, WithChildren } from '@types';
-import { findElementById, updateElementById } from '@utils';
+import {
+  findElementById,
+  findIndexById,
+  removeElementById,
+  swapElementsByIndexPath,
+  updateElementById,
+} from '@utils';
 
 type MenuContextProps = {
   menuElements: MenuElementT[];
@@ -27,21 +33,6 @@ type MenuContextProps = {
   activeID: string;
   setActiveID: Dispatch<SetStateAction<string>>;
 };
-
-function swapIndex(array: MenuElementT[], index1: number, index2: number) {
-  if (
-    index1 < 0 ||
-    index1 >= array.length ||
-    index2 < 0 ||
-    index2 >= array.length
-  ) {
-    return array;
-  }
-
-  [array[index1], array[index2]] = [array[index2], array[index1]];
-
-  return array;
-}
 
 export const MenuContext = createContext<MenuContextProps>({
   menuElements: [],
@@ -63,12 +54,17 @@ export function MenuContextProvider({ children }: WithChildren) {
       label: 'test',
       submenu: [
         {
-          id: 'first-child',
-          label: 'test child',
+          id: 'first-child-2',
+          label: 'test child-2',
           submenu: [
             {
-              id: 'first-child-child',
-              label: 'test child child',
+              id: 'first-child-child-2',
+              label: 'test child chil-2d',
+              submenu: [],
+            },
+            {
+              id: 'first-second-child-child-2',
+              label: 'test second child child-2',
               submenu: [],
             },
           ],
@@ -77,60 +73,52 @@ export function MenuContextProvider({ children }: WithChildren) {
     },
   ]);
   const [formIsOpen, setFormIsOpen] = useState(false);
-  const [activeIndex, setActiveIndex] = useState(null);
-  const [activeID, setActiveID] = useState('first');
+  const [activeID, setActiveID] = useState(crypto.randomUUID());
 
   const handleDragStart = ({ active }: DragEndEvent) => {
-    const activeIndex = active.data.current?.menuElementIndex;
-    if (typeof activeIndex === 'number')
-      setActiveIndex(active.data.current?.menuElementIndex);
+    const menuElementId = active.data.current?.menuElementId;
+    if (menuElementId) setActiveID(active.data.current?.menuElementId);
   };
 
   const handleDragEnd = ({ active: { id: activeId }, over }: DragEndEvent) => {
     const endId = over?.id;
-
-    if (!endId) {
-      return;
-    }
 
     if (typeof activeId !== 'string' || typeof endId !== 'string') return;
 
     const splitedStartId = activeId.split('_')[1];
     const splitedEndId = endId.split('_')[1];
 
-    const menuElPrevPosition = menuElements.findIndex((el) => {
-      return el.id === splitedStartId;
-    });
-    const menuElNextPosition = menuElements.findIndex((el) => {
-      return el.id === splitedEndId;
-    });
+    if (splitedStartId === splitedEndId) return;
 
-    if (menuElPrevPosition < 0 || menuElNextPosition < 0) return;
+    const menuElPrevPosition = findIndexById(menuElements, splitedStartId);
+    const menuElNextPosition = findIndexById(menuElements, splitedEndId);
 
-    const menuElementsNewPositions = swapIndex(
-      menuElements,
+    console.log(menuElPrevPosition, menuElNextPosition);
+
+    if (menuElNextPosition === null || menuElPrevPosition === null) return;
+
+    const array = JSON.parse(JSON.stringify(menuElements));
+
+    const newArray = swapElementsByIndexPath(
+      array,
       menuElPrevPosition,
       menuElNextPosition
     );
 
-    setMenuElements(menuElementsNewPositions);
-    setActiveIndex(null);
+    setMenuElements(newArray);
+    setActiveID('');
   };
 
   const removeMenuElement = (id: string) => {
     if (confirm(`Chcesz usunąć element z listy?`) == false) {
       return;
     }
+    const array = menuElements;
+    const newArray = removeElementById(array, id);
 
-    const index = menuElements.findIndex((el: MenuElementT) => el.id === id);
-
-    if (index > -1) {
-      const newMenuElements = menuElements.toSpliced(index, 1);
-
-      setMenuElements(newMenuElements);
-      setFormIsOpen(false);
-      setActiveID('');
-    }
+    setMenuElements(newArray);
+    setFormIsOpen(false);
+    setActiveID('');
   };
 
   const editMenuElement = (id: string) => {
@@ -148,7 +136,7 @@ export function MenuContextProvider({ children }: WithChildren) {
     isEdit: boolean
   ) => {
     if (isEdit) {
-      const array = menuElements;
+      const array = JSON.parse(JSON.stringify(menuElements));
       const element = findElementById(menuElements, id);
 
       const dataToSave = {
@@ -172,6 +160,7 @@ export function MenuContextProvider({ children }: WithChildren) {
     setFormIsOpen(false);
     setActiveID('');
   };
+  const activeElement = findElementById(menuElements, activeID);
 
   return (
     <DndContext
@@ -197,9 +186,7 @@ export function MenuContextProvider({ children }: WithChildren) {
       </MenuContext.Provider>
 
       <DragOverlay modifiers={[restrictToWindowEdges]}>
-        {typeof activeIndex === 'number' ? (
-          <MenuElementView menuElement={menuElements[activeIndex]} />
-        ) : null}
+        {activeElement ? <MenuElementView menuElement={activeElement} /> : null}
       </DragOverlay>
     </DndContext>
   );

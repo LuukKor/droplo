@@ -11,16 +11,15 @@ import { MenuElementView } from './MenuElementView';
 
 type MenuElementProps = {
   menuElement: MenuElementT;
-  index: number;
 };
 
-export function MenuElement({ menuElement, index }: MenuElementProps) {
+export function MenuElement({ menuElement }: MenuElementProps) {
   const { removeMenuElement, editMenuElement, addToSubMenu } =
     useContext(MenuContext);
   const { attributes, listeners, setNodeRef } = useDraggable({
     id: `menu-el-draggable_${menuElement.id}`,
     data: {
-      menuElementIndex: index,
+      menuElementId: menuElement.id,
     },
   });
   const { setNodeRef: dropSetNodeRef } = useDroppable({

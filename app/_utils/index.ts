@@ -28,8 +28,8 @@ export const findElementById = (
 export const findIndexById = (
   menuElements: MenuElementT[],
   id: string,
-  path: (string | number)[] = []
-): (string | number)[] | null => {
+  path: number[] = []
+): number[] | null => {
   for (let i = 0; i < menuElements.length; i++) {
     const el = menuElements[i];
     if (el.id === id) {
@@ -45,23 +45,31 @@ export const findIndexById = (
   return null;
 };
 
-export const findElementByIndexPath = (
+export function swapElementsByIndexPath(
   menuElements: MenuElementT[],
-  indexPath: number[]
-): MenuElementT | null => {
-  let current = menuElements;
-  let element: MenuElementT | null = null;
+  path1: number[],
+  path2: number[]
+): MenuElementT[] {
+  const getNodeByPath = (
+    menuElements: MenuElementT[],
+    path: number[]
+  ): MenuElementT => {
+    return path.reduce(
+      (el: MenuElementT, index: number) => {
+        return el.submenu[index];
+      },
+      { submenu: menuElements } as MenuElementT
+    );
+  };
 
-  for (const index of indexPath) {
-    if (!current || current[index] === undefined) {
-      return null;
-    }
-    element = current[index];
-    current = element.submenu || [];
-  }
+  const el1 = getNodeByPath(menuElements, path1);
+  const el2 = getNodeByPath(menuElements, path2);
 
-  return element;
-};
+  [el1.id, el2.id] = [el2.id, el1.id];
+  [el1.label, el2.label] = [el2.label, el1.label];
+
+  return menuElements;
+}
 
 export const updateElementById = (
   menuElements: MenuElementT[],
