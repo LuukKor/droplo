@@ -74,17 +74,22 @@ export function swapElementsByIndexPath(
 export const updateElementById = (
   menuElements: MenuElementT[],
   id: string,
-  data: MenuElementT
+  data: MenuElementT,
+  forSubmenu: boolean = false
 ): MenuElementT[] => {
   return menuElements.map((el) => {
     if (el.id === id) {
-      if (el.label !== data.label) el.label = data.label;
-      if (data.url) el.url = data.url;
+      if (forSubmenu) {
+        el.submenu.push(data);
+      } else {
+        if (el.label !== data.label) el.label = data.label;
+        if (data.url) el.url = data.url;
+      }
 
       return el;
     }
     if (el.submenu) {
-      el.submenu = updateElementById(el.submenu, id, data);
+      el.submenu = updateElementById(el.submenu, id, data, forSubmenu);
     }
     return el;
   });

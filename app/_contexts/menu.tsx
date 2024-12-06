@@ -25,13 +25,10 @@ type MenuContextProps = {
   removeMenuElement: (id: string) => void;
   editMenuElement: (id: string) => void;
   addToSubMenu: (id: string) => void;
-  handleMenuElementFormSubmit: (
-    id: string,
-    data: MenuElementFormData,
-    isEdit: boolean
-  ) => void;
+  handleMenuElementFormSubmit: (id: string, data: MenuElementFormData) => void;
   activeID: string;
   setActiveID: Dispatch<SetStateAction<string>>;
+  isAddToSubmenu: boolean;
 };
 
 export const MenuContext = createContext<MenuContextProps>({
@@ -45,6 +42,7 @@ export const MenuContext = createContext<MenuContextProps>({
   handleMenuElementFormSubmit: () => {},
   activeID: '',
   setActiveID: () => {},
+  isAddToSubmenu: false,
 });
 
 export function MenuContextProvider({ children }: WithChildren) {
@@ -74,6 +72,8 @@ export function MenuContextProvider({ children }: WithChildren) {
   ]);
   const [formIsOpen, setFormIsOpen] = useState(false);
   const [activeID, setActiveID] = useState(crypto.randomUUID());
+  const [isAddToSubmenu, setIsAddToSubmenu] = useState(false);
+  const [isEdit, setIsEdit] = useState(false);
 
   const handleDragStart = ({ active }: DragEndEvent) => {
     const menuElementId = active.data.current?.menuElementId;
@@ -93,8 +93,6 @@ export function MenuContextProvider({ children }: WithChildren) {
     const menuElPrevPosition = findIndexById(menuElements, splitedStartId);
     const menuElNextPosition = findIndexById(menuElements, splitedEndId);
 
-    console.log(menuElPrevPosition, menuElNextPosition);
-
     if (menuElNextPosition === null || menuElPrevPosition === null) return;
 
     const array = JSON.parse(JSON.stringify(menuElements));
@@ -113,29 +111,50 @@ export function MenuContextProvider({ children }: WithChildren) {
     if (confirm(`Chcesz usunąć element z listy?`) == false) {
       return;
     }
-    const array = menuElements;
+    const array = JSON.parse(JSON.stringify(menuElements));
     const newArray = removeElementById(array, id);
 
     setMenuElements(newArray);
     setFormIsOpen(false);
     setActiveID('');
+    setIsEdit(false);
+    setIsAddToSubmenu(false);
   };
 
   const editMenuElement = (id: string) => {
     setActiveID(id);
     setFormIsOpen(true);
+    setIsEdit(true);
+    setIsAddToSubmenu(false);
   };
 
   const addToSubMenu = (id: string) => {
     setActiveID(id);
+    setFormIsOpen(true);
+    setIsEdit(false);
+    setIsAddToSubmenu(true);
   };
 
   const handleMenuElementFormSubmit = (
     id: string,
-    data: MenuElementFormData,
-    isEdit: boolean
+    data: MenuElementFormData
   ) => {
-    if (isEdit) {
+    if (isAddToSubmenu) {
+      const array = JSON.parse(JSON.stringify(menuElements));
+
+      const dataToSave = {
+        id: crypto.randomUUID(),
+        label: data.name,
+        url: data.link,
+        submenu: [],
+      };
+
+      const newArray = updateElementById(array, activeID, dataToSave, true);
+
+      if (newArray) {
+        setMenuElements([...newArray]);
+      }
+    } else if (isEdit) {
       const array = JSON.parse(JSON.stringify(menuElements));
       const element = findElementById(menuElements, id);
 
@@ -158,6 +177,8 @@ export function MenuContextProvider({ children }: WithChildren) {
       ]);
     }
     setFormIsOpen(false);
+    setIsAddToSubmenu(false);
+    setIsEdit(false);
     setActiveID('');
   };
   const activeElement = findElementById(menuElements, activeID);
@@ -180,6 +201,7 @@ export function MenuContextProvider({ children }: WithChildren) {
           editMenuElement,
           handleMenuElementFormSubmit,
           addToSubMenu,
+          isAddToSubmenu,
         }}
       >
         {children}

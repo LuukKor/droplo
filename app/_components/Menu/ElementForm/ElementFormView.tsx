@@ -1,4 +1,3 @@
-'use client';
 import { Dispatch, FormEventHandler, SetStateAction, useContext } from 'react';
 import { FieldErrors, FieldValues, UseFormRegister } from 'react-hook-form';
 
@@ -33,9 +32,10 @@ export function ElementFormView({
   setFormIsOpen,
   trashIconButtonHandle,
 }: MenuElementFormViewProps) {
-  const { menuElements } = useContext(MenuContext);
+  const { menuElements, isAddToSubmenu } = useContext(MenuContext);
   const element = findElementById(menuElements, id);
-  const defaultValue = element ? element : ({} as MenuElementT);
+  const defaultValue =
+    !isAddToSubmenu && element ? element : ({} as MenuElementT);
 
   return (
     <form

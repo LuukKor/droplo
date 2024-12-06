@@ -18,6 +18,7 @@ export function MenuElementForm({ id }: MenuElementFormProps) {
     setFormIsOpen,
     removeMenuElement,
     handleMenuElementFormSubmit,
+    isAddToSubmenu,
   } = useContext(MenuContext);
   const {
     register,
@@ -25,9 +26,9 @@ export function MenuElementForm({ id }: MenuElementFormProps) {
     formState: { errors },
   } = useForm<MenuElementFormData>();
   const index = findIndexById(menuElements, id);
-  const haveElement = index !== null && index.length > 0;
+  const haveElement = !isAddToSubmenu && index !== null && index.length > 0;
   const onSubmit = (data: MenuElementFormData) =>
-    handleMenuElementFormSubmit(id, data, haveElement);
+    handleMenuElementFormSubmit(id, data);
 
   return (
     <ElementFormView
